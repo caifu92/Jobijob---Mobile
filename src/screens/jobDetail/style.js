@@ -17,6 +17,7 @@ const simple = EStyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 5,
+        elevation: 15,
         zIndex: 100
     },
     headerText: {
@@ -39,6 +40,7 @@ const jobItem = EStyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 5,
+        elevation: 15,
     },
     companyLogo: {
         width: 60,

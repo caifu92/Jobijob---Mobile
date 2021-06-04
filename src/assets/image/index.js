@@ -11,6 +11,7 @@ import Close from './close.png'
 import Delete from './delete.png'
 import Edit from './edit.png'
 import LeftDirection from './left-direction.png'
+import DefaultProfileImage from './default.png'
 
 const Images = {
     Home: Home,
@@ -25,7 +26,8 @@ const Images = {
     Close: Close,
     Delete: Delete,
     Edit: Edit,
-    LeftDirection: LeftDirection
+    LeftDirection: LeftDirection,
+    DefaultProfileImage: DefaultProfileImage
 };
 
 export default Images;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, ScrollView, View, Image } from 'react-native'
-
+import Images from '@assets/image'
 import styles from './style'
 
 const AppliedJobscreen = (props) => {
@@ -10,7 +10,7 @@ const AppliedJobscreen = (props) => {
             <View>
                 <View style={styles.jobItemWrapper}>
                     <Image 
-                        source={{url: 'https://avatars.githubusercontent.com/u/10977864?s=88&u=7465a9f7c6cdf5ccca2fe46fd7f16d00e5f153d6&v=4'}} 
+                        source={Images.DefaultProfileImage} 
                         style={styles.companyLogo} />
                     <View style={{flex: 1}}>
                         <View style={styles.jobItemDetail}>

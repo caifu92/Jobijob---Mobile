@@ -17,6 +17,7 @@ export default styles = EStyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 5,
+        elevation: 15,
         zIndex: 100
     },
     headerText: {
@@ -40,6 +41,7 @@ export default styles = EStyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 5,
+        elevation: 15,
     },
     headline: {
         fontSize: 24,

@@ -45,6 +45,7 @@ export default styles = EStyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 5,
+        elevation: 15,
         zIndex: 100
     },
     sectionHeadlineWrapper: {
@@ -76,7 +77,8 @@ export default styles = EStyleSheet.create({
             height: 0,
         },
         shadowOpacity: 0.4,
-        shadowRadius: 5
+        shadowRadius: 5,
+        elevation: 15,
     },
     mb20: {
         marginBottom: 20

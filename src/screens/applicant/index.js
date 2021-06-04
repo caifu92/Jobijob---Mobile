@@ -135,7 +135,7 @@ const ProfileScreen = (props) => {
                     {workExperience.map((value, index) => {
                         return (
                             <WorkExperience 
-                                data={value} 
+                                data={{...value}}
                                 isNew={value.isNew ? true : false} 
                                 style={styles.mb20} 
                                 key={JSON.stringify(value)} 
@@ -161,7 +161,7 @@ const ProfileScreen = (props) => {
                     {education.map((value, index) => {
                         return (
                             <Education 
-                                data={value} 
+                                data={{...value}}
                                 style={styles.mb20} 
                                 key={JSON.stringify(value)} 
                                 onSave={onSaveEducation}

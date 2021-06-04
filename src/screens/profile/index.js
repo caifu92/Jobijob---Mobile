@@ -120,7 +120,7 @@ const ProfileScreen = (props) => {
                 </TouchableHighlight>
             </View>
             <View style={styles.basicInfoWrapper}>
-                <Image source={{url: 'https://avatars.githubusercontent.com/u/10977864?s=88&u=7465a9f7c6cdf5ccca2fe46fd7f16d00e5f153d6&v=4'}} style={styles.profileImage} />
+                <Image source={Images.DefaultProfileImage} style={styles.profileImage} />
                 <Text style={styles.username}>Jonas Peter</Text>
             </View>
             <View style={styles.card} >
@@ -141,7 +141,7 @@ const ProfileScreen = (props) => {
                     {workExperience.map((value, index) => {
                         return (
                             <WorkExperience 
-                                data={value} 
+                                data={{...value}}
                                 isNew={value.isNew ? true : false} 
                                 style={styles.mb20} 
                                 key={JSON.stringify(value)} 
@@ -167,7 +167,7 @@ const ProfileScreen = (props) => {
                     {education.map((value, index) => {
                         return (
                             <Education 
-                                data={value} 
+                                data={{...value}}
                                 style={styles.mb20} 
                                 key={JSON.stringify(value)} 
                                 onSave={onSaveEducation}

@@ -2,6 +2,7 @@ import React from 'react'
 import { ScrollView, View, Text, Image, Dimensions, TouchableHighlight } from 'react-native'
 
 import { CustomInput, CustomSelect } from '@components'
+import Images from '@assets/image'
 import styles from './style'
 
 const screenWidth = Dimensions.get('window').width;
@@ -15,7 +16,7 @@ const JobDetailScreen = (props) => {
             <View style={styles.jobItem.wrapper}>
                 <View style={{flexDirection: 'row'}}>
                     <Image 
-                        source={{url: 'https://avatars.githubusercontent.com/u/10977864?s=88&u=7465a9f7c6cdf5ccca2fe46fd7f16d00e5f153d6&v=4'}} 
+                        source={Images.DefaultProfileImage} 
                         style={styles.jobItem.companyLogo} />
                     <View>
                         <Text style={styles.jobItem.jobTitle}>Product Designer</Text>

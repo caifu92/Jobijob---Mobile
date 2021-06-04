@@ -3,8 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 const simple = EStyleSheet.create({
     screenWrapper: {
         flex: 1,
-        backgroundColor: '$whiteLight',
-        paddingBottom: 50
+        backgroundColor: '$whiteLight'
     },
     header: {
         height: 65,
@@ -18,6 +17,7 @@ const simple = EStyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 5,
+        elevation: 15,
         zIndex: 100
     },
     headerText: {
@@ -42,6 +42,7 @@ const simple = EStyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 5,
+        elevation: 15,
     },
     searchHeadline: {
         fontSize: 20,
@@ -96,6 +97,7 @@ const jobItem = EStyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 5,
+        elevation: 15,
     },
     companyLogo: {
         width: 60,
@@ -153,7 +155,8 @@ const pagination = EStyleSheet.create({
     wrapper: {
         marginTop: 20,
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginBottom: 50
     },
     item: {
         backgroundColor: '$white',

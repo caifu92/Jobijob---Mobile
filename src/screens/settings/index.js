@@ -121,7 +121,7 @@ const SettingsScreen = (props) => {
             <View style={styles.basicInfoWrapper}>
                 <View>
                     <Image 
-                        source={{url: localImage ? `data:image/gif;base64,${localImage}` : 'https://avatars.githubusercontent.com/u/10977864?s=88&u=7465a9f7c6cdf5ccca2fe46fd7f16d00e5f153d6&v=4'}} 
+                        source={localImage ? {url: `data:image/gif;base64,${localImage}`} : Images.DefaultProfileImage} 
                         style={styles.profileImage} />
                     <View style={styles.profileImageEditButtonWrapper}>
                         <TouchableHighlight underlayColor="transparent" onPress={onProfileImageEdit}>
