@@ -7,6 +7,7 @@ export default styles = EStyleSheet.create({
         paddingHorizontal: 15
     },
     header: {
+        paddingHorizontal: 15,
         marginTop: 50,
         flexDirection: 'row',
         justifyContent: 'space-between'

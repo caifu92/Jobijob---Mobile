@@ -16,7 +16,8 @@ export default styles = EStyleSheet.create({
         color: '$black'
     },
     companyName: {
-        color: '$primary'
+        color: '$primary',
+        marginTop: 10
     },
     basicInfoWrapper: {
         alignItems: 'center'

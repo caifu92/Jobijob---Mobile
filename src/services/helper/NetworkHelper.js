@@ -1,18 +1,20 @@
 import { store } from '@redux/store'
 import qs from 'query-string'
-import { API_URL, displayToast } from '@common'
+import { Alert } from 'react-native'
 import * as RootNavigation from '../../RootNavigation'
+import * as Actions from '@redux/actions'
+import { API_URL } from '@common'
 
 class NetworkHelper {
-    static post(url, params, headers = null){        
-        return NetworkHelper.httpRequest('post', url, params, headers)
+    static post(url, params, needAuth, headers = null){        
+        return NetworkHelper.httpRequest('post', url, params, needAuth, headers)
     }
 
-    static get(url, headers = null){
-        return NetworkHelper.httpRequest('GET', url, null, headers)
+    static get(url, needAuth, headers = null){
+        return NetworkHelper.httpRequest('GET', url, null, needAuth, headers)
     }
 
-    static httpRequest(method, url, params, headers){
+    static httpRequest(method, url, params, needAuth, headers){
         const baseUrl = API_URL;
 
         return new Promise((resolve, reject) => {
@@ -25,10 +27,12 @@ class NetworkHelper {
                 }
             }
 
-            const { authReducers } = store.getState();
-            
-            if(authReducers.isLoggedIn) {
-                options.headers["Authorization"] = `Bearer ${authReducers.userInfo.accessToken}`;
+            if (needAuth) {
+                const { authReducers } = store.getState();
+                
+                if(authReducers.isLoggedIn) {
+                    options.headers["Authorization"] = `Bearer ${authReducers.token}`;
+                }
             }
           
             if(params) {
@@ -44,21 +48,23 @@ class NetworkHelper {
                 })
                 .then((body) => {
                     if (status == 403) {
-                        reject({});
-                        displayToast('Token timeout.');
+                        Alert.alert('Token abgelaufen. Nochmal anmelden.');
                         setTimeout(() => {
-                            RootNavigation.navigate('login');
+                            store.dispatch(Actions.Auth.logout());
+                            RootNavigation.navigate('Login');
                         }, 2000);
-                    } else if (status != 200) {
                         reject({});
-                        displayToast(body.message ? body.message : 'Server error. Try again later.');
+                    } else if (status != 200) {
+                        console.log(url, body, status);
+                        Alert.alert(body.error);
+                        reject({});
                     } else {
                         resolve(body);
                     }
                 })
                 .catch(err => {
+                    Alert('Interner Serverfehler');
                     reject(err);
-                    displayToast('Server error. Try again later.');
                 });
         });
     }

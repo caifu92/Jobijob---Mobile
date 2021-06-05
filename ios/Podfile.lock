@@ -264,6 +264,8 @@ PODS:
     - React-Core (= 0.63.4)
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
+  - RNCAsyncStorage (1.15.5):
+    - React-Core
   - RNCMaskedView (0.1.11):
     - React
   - RNCPicker (1.8.1):
@@ -359,6 +361,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -446,6 +449,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNCPicker:
@@ -489,7 +494,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   EXConstants: c00cd53a17a65b2e53ddb3890e4e74d3418e406e
-  EXFileSystem: 35769beb727d5341d1276fd222710f9704f7164e
+  EXFileSystem: 4bdd642677111e1ddcac33afc555b068d2efd63c
   EXImageLoader: 1ad8b491fd0f3200b57b37ecb1801abeb6549926
   EXImagePicker: eed541a833d4aad46cd482793eb3f2d51272a77a
   EXPermissions: ea8d63dd052737765bd350b2ca7cee9bcfd5e18e
@@ -518,6 +523,7 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
+  RNCAsyncStorage: 8324611026e8dc3706f829953aa6e3899f581589
   RNCMaskedView: f127cd9652acfa31b91dcff613e07ba18b774db6
   RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
@@ -527,17 +533,17 @@ SPEC CHECKSUMS:
   UMBarCodeScannerInterface: 96a01d81ff0c7febbfefc2d7396db9e7462d8c68
   UMCameraInterface: 8ad433fdadca22703ebeb614d42b814092d38d69
   UMConstantsInterface: 55c79ca258a3ede70480fed85e3843899cd47ea3
-  UMCore: 0da048c9753abcea0042258e6ad0fed77811f7e1
+  UMCore: fa8360bafce09c33041df0cdead98ab1198b22b8
   UMFaceDetectorInterface: 4db950a25e785796a237bcebb8fff05078c4fb61
   UMFileSystemInterface: 4a92ee36e6c2757833031718f8496690fa931280
   UMFontInterface: 81a951117d03f57aa636fba3992adefd0191f200
   UMImageLoaderInterface: 5cd09b41630dc8aef7619fabc497c01c0f6b715c
   UMPermissionsInterface: 4351145563e703c521fe2299e08227bc3584b94a
-  UMReactNativeAdapter: 7b458ca3d4497b5114e6bb766b223432bad22d8a
+  UMReactNativeAdapter: e89ade57da1cd2a8ee605f5f7c17e654b8ae8249
   UMSensorsInterface: 50439b47826e716a514cbd7384aebe9ab4fde5f4
   UMTaskManagerInterface: 482155764886069beb1bc7fcf6036f12e4ad0751
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
 
 PODFILE CHECKSUM: aa0dcca8d33cc54451ee0c8adf3a192bd6a62925
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.9.3

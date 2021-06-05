@@ -80,6 +80,10 @@ const simple = EStyleSheet.create({
     jobList: {
         paddingTop: 10,
         paddingHorizontal: 30,
+        marginBottom: 20
+    },
+    indicator: {
+        marginTop: 50
     }
 });
 
@@ -153,36 +157,36 @@ const jobItem = EStyleSheet.create({
 
 const pagination = EStyleSheet.create({
     wrapper: {
-        marginTop: 20,
+        marginTop: 0,
         flexDirection: 'row',
         justifyContent: 'center',
         marginBottom: 50
     },
     item: {
         backgroundColor: '$white',
-        width: 40,
-        height: 40,
+        width: 30,
+        height: 30,
         borderRadius: 5,
         marginLeft: 5,
         marginRight: 5
     },
     activeItem: {
         backgroundColor: '$primary',
-        width: 40,
-        height: 40,
+        width: 30,
+        height: 30,
         borderRadius: 5,
         marginLeft: 5,
         marginRight: 5
     },
     text: {
         textAlign: 'center',
-        paddingVertical: 10,
+        paddingVertical: 6,
         color: '$dark',
         fontWeight: '600'
     },
     activeText: {
         textAlign: 'center',
-        paddingVertical: 10,
+        paddingVertical: 6,
         color: '$white',
         fontWeight: '600'
     }

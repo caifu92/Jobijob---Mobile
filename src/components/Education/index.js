@@ -46,15 +46,23 @@ const Education = (props) => {
         level: '',
         field: '',
         school: '',
-        fromMonth: 1,
-        fromYear: 1970,
-        currentlyAttending: false,
-        toMonth: 1,
-        toYear: 1970,
+        from_month: 1,
+        from_year: 1970,
+        currently_attending: false,
+        to_month: 1,
+        to_year: 1970,
     });
 
     useEffect(() => {
-        setData(props.data);
+        setData({
+            ...props.data,
+            from_month: parseInt(props.data.from_month),
+            from_year: parseInt(props.data.from_year),
+            currently_attending: props.data.currently_attending == '0' ? false : true,
+            to_month: parseInt(props.data.to_month),
+            to_year: parseInt(props.data.to_year),
+        });
+        
         if (props.data.isNew) {
             setIsEditMode(true);
         }
@@ -84,29 +92,29 @@ const Education = (props) => {
             return;
         }
         // FROM DATE
-        if (!data.fromMonth || !data.fromYear) {
+        if (!data.from_month || !data.from_year) {
             setIsError(true);
             setErrorMessage('Das Ab-Datum ist erforderlich.');
             return;
         }
-        if (data.fromYear == currentYear && data.fromMonth > currentMonth) {
+        if (data.from_year == currentYear && data.from_month > currentMonth) {
             setIsError(true);
             setErrorMessage('Das Ab-Datum sollte früher als heute sein.');
             return;
         }
         // TO DATE
-        if (!data.currentlyAttending) {
-            if (!data.toMonth || !data.toYear) {
+        if (!data.currently_attending) {
+            if (!data.to_month || !data.to_year) {
                 setIsError(true);
                 setErrorMessage('Das Ab-Datum ist erforderlich.');
                 return;
             }
-            if (data.toYear == currentYear && data.toMonth > currentMonth) {
+            if (data.to_year == currentYear && data.to_month > currentMonth) {
                 setIsError(true);
                 setErrorMessage('Das bisherige sollte früher als heute sein.');
                 return;
             }
-            if (data.toYear < data.fromYear || (data.toYear == data.fromYear && data.toMonth < data.fromMonth)) {
+            if (data.to_year < data.from_year || (data.to_year == data.from_year && data.to_month < data.from_month)) {
                 setIsError(true);
                 setErrorMessage('Das Datum sollte später als ab dem Datum sein.');
                 return;
@@ -139,7 +147,7 @@ const Education = (props) => {
                     <View style={styles.wrapper}>
                         <Text style={styles.levelField}>{data.level} - {data.field}</Text>
                         <Text style={styles.school}>{data.school}</Text>
-                        <Text style={styles.period}>{MONTHS[data.fromMonth - 1].label} {data.fromYear} - {data.currentlyAttending ? 'Jetzt' : `${MONTHS[data.toMonth - 1].label} ${data.toYear}`}</Text>
+                        <Text style={styles.period}>{MONTHS[data.from_month - 1].label} {data.from_year} - {data.currently_attending ? 'Jetzt' : `${MONTHS[data.to_month - 1].label} ${data.to_year}`}</Text>
                         <View style={[styles.circleButton, styles.editButton]}>
                             <TouchableHighlight underlayColor="transparent" onPress={() => setIsEditMode(!isEditMode)} >
                                 <Image source={Images.Edit} />
@@ -172,30 +180,30 @@ const Education = (props) => {
                         placeholder="Schule" />
                     <View style={styles.dateWrapper}>
                         <CustomSelect 
-                            onValueChange={value => onUpdateField('fromMonth', value)} 
-                            value={data.fromMonth}
+                            onValueChange={value => onUpdateField('from_month', value)} 
+                            value={data.from_month}
                             width={(screenWidth - 100) * 0.48}
                             items={MONTHS} 
                             placeholder={{ label: 'Von', value: null }} />
                         <CustomSelect 
-                            onValueChange={value => onUpdateField('fromYear', value)} 
-                            value={data.fromYear}
+                            onValueChange={value => onUpdateField('from_year', value)} 
+                            value={data.from_year}
                             width={(screenWidth - 100) * 0.48}
                             items={YEARS} 
                             placeholder={{ label: 'Jahr', value: null }} />
                     </View>
-                    {!data.currentlyAttending && (
+                    {!data.currently_attending && (
                         <>
                             <View style={styles.dateWrapper}>
                                 <CustomSelect 
-                                    onValueChange={value => onUpdateField('toMonth', value)} 
-                                    value={data.toMonth}
+                                    onValueChange={value => onUpdateField('to_month', value)} 
+                                    value={data.to_month}
                                     width={(screenWidth - 100) * 0.48}
                                     items={MONTHS} 
                                     placeholder={{ label: 'Zu', value: null }} />
                                 <CustomSelect 
-                                    onValueChange={value => onUpdateField('toYear', value)} 
-                                    value={data.toYear}
+                                    onValueChange={value => onUpdateField('to_year', value)} 
+                                    value={data.to_year}
                                     width={(screenWidth - 100) * 0.48}
                                     items={YEARS} 
                                     placeholder={{ label: 'Jahr', value: null }} />
@@ -204,9 +212,9 @@ const Education = (props) => {
                     )}
                     <CustomCheckbox 
                         text="Arbeite gerade hier"
-                        onPress={value => onUpdateField('currentlyAttending', value)} 
-                        style={styles.checkboxCurrentlyAttending}
-                        isChecked={data.currentlyAttending} />
+                        onPress={value => onUpdateField('currently_attending', value)} 
+                        style={styles.checkboxcurrently_attending}
+                        isChecked={data.currently_attending} />
                     {isError && (
                         <Text style={styles.errorMessage}>{errorMessage}</Text>
                     )}

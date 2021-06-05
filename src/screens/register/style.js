@@ -77,10 +77,10 @@ export default styles = EStyleSheet.create({
         borderRadius: 10,
         backgroundColor: '$primary',
         width: '60%',
-        marginHorizontal: '20%'
+        marginHorizontal: '20%',
+        paddingVertical: 15
     },
     registerButtonText: {
-        paddingVertical: 15,
         textAlign: 'center',
         color: '$white',
         fontWeight: '800',

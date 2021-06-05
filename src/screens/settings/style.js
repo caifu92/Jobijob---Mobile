@@ -7,8 +7,10 @@ export default styles = EStyleSheet.create({
         paddingHorizontal: 15
     },
     header: {
+        paddingHorizontal: 15,
         marginTop: 50,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     directionImage: {
         marginTop: 7,
@@ -17,6 +19,10 @@ export default styles = EStyleSheet.create({
     headline: {
         fontSize: 22,
         fontWeight: '600'
+    },
+    logoutImage: {
+        width: 25,
+        height: 25
     },
     profileImageEditButtonWrapper: {
         position: 'absolute',

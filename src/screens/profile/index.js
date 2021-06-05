@@ -1,36 +1,44 @@
-import React, { useState } from 'react'
-import { ScrollView, View, Text, Image, TouchableHighlight } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import { ScrollView, View, Text, Image, TouchableHighlight, ActivityIndicator, Alert } from 'react-native'
 import { WorkExperience, Education, CustomInput } from '@components'
-
+import * as Services from '@services'
 import Images from '@assets/image'
 import styles from './style'
 
 const ProfileScreen = (props) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const [username, setUsername] = useState('');
+    const [profileImage, setProfileImage] = useState('');
     const [currentSkillInput, setCurrentSkillInput] = useState('');
-    const [skills, setSkills] = useState(['aaa', 'bbb']);
+    const [skills, setSkills] = useState();
     const [indexWE, setIndexWE] = useState(-1);
     const [indexEducation, setIndexEducation] = useState(-1);
-    const [workExperience, setWorkExperience] = useState([{
-        id: 1,
-        jobTitle: `Software Engineer`,
-        companyName: `Icicle Technologies`,
-        fromMonth: 3,
-        fromYear: 2013,
-        currentlyWorking: false,
-        toMonth: 5,
-        toYear: 2019,
-        description: `Built rich front-end applications, user interactive (UI) web pages using HTML5, CSS3, and Bootstrap Build a healthy care web-app that requires using google calendar APIs, AWS services, payment system using stripe.-- Creating React.js / Redux front-end UI, and Node.js applications for backend. Maintaining Parent and child elements by using State and Props in React.js. Skilled in leading frameworks as React.js to build high-quality, scalable and reusable components.---Used services to read data from remote server using React.JS Used React.js library functions for the logical implementation part at client side for all the application. Maintained states in the stores and dispatched the actions using redux. Implemented flux pattern by using redux framework as a core dependency. Build user Authentication system using Auth0 API.`
-    }]);
-    const [education, setEducation] = useState([{
-        level: 'No Diploma',
-        field: 'Computer Science',
-        school: 'Tsinghua Universeity',
-        fromMonth: 3,
-        fromYear: 2013,
-        currentlyAttending: false,
-        toMonth: 5,
-        toYear: 2019,
-    }]);
+    const [workExperience, setWorkExperience] = useState([]);
+    const [education, setEducation] = useState([]);
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            if (props.authReducers.isLoggedIn == false) {
+                props.navigation.navigate('Login');
+                return;
+            }
+
+            setIsLoading(true);
+            Services.Profile.getInfo()
+                .then(res => {
+                    setUsername(res.firstname + ' ' + res.lastname);
+                    setWorkExperience(res.work_experience);
+                    setEducation(res.education);
+                    setSkills(res.skill ? res.skill.split(',') : []);
+                    setProfileImage(res.image);
+                    setIsLoading(false);
+                })
+                .catch(err => console.log(err));
+        });
+        return unsubscribe;
+    }, [props.authReducers.isLoggedIn, props.navigation]);
 
     const onAddWorkExperience = () => {
         var tmp = [...workExperience];
@@ -38,11 +46,11 @@ const ProfileScreen = (props) => {
             id: indexWE,
             jobTitle: '',
             companyName: '',
-            fromMonth: 1,
-            fromYear: 1970,
-            currentlyWorking: false,
-            toMonth: 1,
-            toYear: 1970,
+            from_month: 1,
+            from_year: 1970,
+            currently_working: false,
+            to_month: 1,
+            to_year: 1970,
             description: '',
             isNew: true
         });
@@ -70,11 +78,11 @@ const ProfileScreen = (props) => {
             level: 'No Diploma',
             field: '',
             school: '',
-            fromMonth: 1,
-            fromYear: 1970,
-            currentlyAttending: false,
-            toMonth: 1,
-            toYear: 1970,
+            from_month: 1,
+            from_year: 1970,
+            currently_attending: false,
+            to_month: 1,
+            to_year: 1970,
             isNew: true
         });
         setEducation(tmp);
@@ -108,7 +116,19 @@ const ProfileScreen = (props) => {
     }
 
     const onSaveProfile = () => {
-
+        setIsSaving(true);
+        Services.Profile.saveInfo({
+            info_type: 'detail',
+            arr_work_experience: JSON.stringify(workExperience),
+            arr_education: JSON.stringify(education),
+            arr_skill: JSON.stringify(skills)
+        }).then(res => {
+            Alert.alert(res.message);
+            setIsSaving(false);
+        }).catch(err => {
+            console.log(err);
+            setIsSaving(false);
+        });
     }
     
     return (
@@ -119,95 +139,109 @@ const ProfileScreen = (props) => {
                     <Image source={Images.Settings} style={styles.settingsBtn} />
                 </TouchableHighlight>
             </View>
-            <View style={styles.basicInfoWrapper}>
-                <Image source={Images.DefaultProfileImage} style={styles.profileImage} />
-                <Text style={styles.username}>Jonas Peter</Text>
-            </View>
-            <View style={styles.card} >
-                <View style={styles.workExperienceList}>
-                    <View style={styles.sectionHeadlineWrapper}>
-                        <Text style={styles.sectionHeadlineText}>Berufserfahrung</Text>
-                        <View style={styles.addNewButtonWrapper}>
-                            <TouchableHighlight underlayColor="transparent" onPress={() => onAddWorkExperience()}>
-                                <View style={styles.addNewButton}>
-                                    <Image source={Images.Add} />
+            {isLoading ? (
+                <ActivityIndicator style={{paddingTop: 50}} />
+            ) : (
+                <>
+                    <View style={styles.basicInfoWrapper}>
+                        <Image source={profileImage ? {uri: profileImage} : Images.DefaultProfileImage} style={styles.profileImage} />
+                        <Text style={styles.username}>{username}</Text>
+                    </View>
+                    <View style={styles.card} >
+                        <View style={styles.workExperienceList}>
+                            <View style={styles.sectionHeadlineWrapper}>
+                                <Text style={styles.sectionHeadlineText}>Berufserfahrung</Text>
+                                <View style={styles.addNewButtonWrapper}>
+                                    <TouchableHighlight underlayColor="transparent" onPress={() => onAddWorkExperience()}>
+                                        <View style={styles.addNewButton}>
+                                            <Image source={Images.Add} />
+                                        </View>
+                                    </TouchableHighlight>
                                 </View>
-                            </TouchableHighlight>
+                            </View>
+                            {workExperience.length == 0 && (
+                                <Text style={styles.mb20}>Keine Ausbildung.</Text>
+                            )}
+                            {workExperience.map((value, index) => {
+                                return (
+                                    <WorkExperience 
+                                        data={{...value}}
+                                        isNew={value.isNew ? true : false} 
+                                        style={styles.mb20} 
+                                        key={JSON.stringify(value)} 
+                                        onSave={onSaveWorkExperience}
+                                        onDelete={onDeleteWorkExperience} />
+                                )
+                            })}
                         </View>
-                    </View>
-                    {workExperience.length == 0 && (
-                        <Text style={styles.mb20}>Keine Ausbildung.</Text>
-                    )}
-                    {workExperience.map((value, index) => {
-                        return (
-                            <WorkExperience 
-                                data={{...value}}
-                                isNew={value.isNew ? true : false} 
-                                style={styles.mb20} 
-                                key={JSON.stringify(value)} 
-                                onSave={onSaveWorkExperience}
-                                onDelete={onDeleteWorkExperience} />
-                        )
-                    })}
-                </View>
-                <View style={styles.educationList}>
-                    <View style={styles.sectionHeadlineWrapper}>
-                        <Text style={styles.sectionHeadlineText}>Bildung</Text>
-                        <View style={styles.addNewButtonWrapper}>
-                            <TouchableHighlight underlayColor="transparent" onPress={() => onAddEducation()}>
-                                <View style={styles.addNewButton}>
-                                    <Image source={Images.Add} />
+                        <View style={styles.educationList}>
+                            <View style={styles.sectionHeadlineWrapper}>
+                                <Text style={styles.sectionHeadlineText}>Bildung</Text>
+                                <View style={styles.addNewButtonWrapper}>
+                                    <TouchableHighlight underlayColor="transparent" onPress={() => onAddEducation()}>
+                                        <View style={styles.addNewButton}>
+                                            <Image source={Images.Add} />
+                                        </View>
+                                    </TouchableHighlight>
                                 </View>
-                            </TouchableHighlight>
+                            </View>
+                            {education.length == 0 && (
+                                <Text style={styles.mb20}>Keine Ausbildung.</Text>
+                            )}
+                            {education.map((value, index) => {
+                                return (
+                                    <Education 
+                                        data={{...value}}
+                                        style={styles.mb20} 
+                                        key={JSON.stringify(value)} 
+                                        onSave={onSaveEducation}
+                                        onDelete={onDeleteEducation} />
+                                )
+                            })}
                         </View>
-                    </View>
-                    {education.length == 0 && (
-                        <Text style={styles.mb20}>Keine Ausbildung.</Text>
-                    )}
-                    {education.map((value, index) => {
-                        return (
-                            <Education 
-                                data={{...value}}
-                                style={styles.mb20} 
-                                key={JSON.stringify(value)} 
-                                onSave={onSaveEducation}
-                                onDelete={onDeleteEducation} />
-                        )
-                    })}
-                </View>
-                <View style={styles.skillList}>
-                    <View style={styles.sectionHeadlineWrapper}>
-                        <Text style={styles.sectionHeadlineText}>Wissen / Kompetenzen</Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                        <CustomInput
-                            value={currentSkillInput}
-                            onChangeText={value => { setCurrentSkillInput(value) }}
-                            style={styles.inputSkill} />
-                        <TouchableHighlight underlayColor="transparent" onPress={onAddSkill} style={{width:'10%', height: 45}}>
-                            <Text style={styles.addSkillButton}>+</Text>
-                        </TouchableHighlight>
-                    </View>
-                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                        {skills.map((value, index) => {
-                            return (
-                                <TouchableHighlight underlayColor="transparent" onPress={() => { onDeleteSkill(value) }} key={JSON.stringify({index:index, value:value})}>
-                                    <View style={styles.skillWrapper}>
-                                        <Text style={styles.skillText}>{value}</Text>
-                                    </View>
+                        <View style={styles.skillList}>
+                            <View style={styles.sectionHeadlineWrapper}>
+                                <Text style={styles.sectionHeadlineText}>Wissen / Kompetenzen</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <CustomInput
+                                    value={currentSkillInput}
+                                    onChangeText={value => { setCurrentSkillInput(value) }}
+                                    style={styles.inputSkill} />
+                                <TouchableHighlight underlayColor="transparent" onPress={onAddSkill} style={{width:'10%', height: 45}}>
+                                    <Text style={styles.addSkillButton}>+</Text>
                                 </TouchableHighlight>
-                            );
-                        })}
+                            </View>
+                            <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                                {skills.map((value, index) => {
+                                    return (
+                                        <TouchableHighlight underlayColor="transparent" onPress={() => { onDeleteSkill(value) }} key={JSON.stringify({index:index, value:value})}>
+                                            <View style={styles.skillWrapper}>
+                                                <Text style={styles.skillText}>{value}</Text>
+                                            </View>
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </View>
+                        </View>
+                        <View style={styles.saveButtonWrapper}>
+                            {isSaving ? (
+                                <ActivityIndicator color="white" />
+                            ) : (
+                                <TouchableHighlight underlayColor="transparent" onPress={onSaveProfile}>
+                                    <Text style={styles.saveButtonText}>Speichern</Text>
+                                </TouchableHighlight>
+                            )}
+                        </View>
                     </View>
-                </View>
-                <TouchableHighlight underlayColor="transparent" onPress={onSaveProfile}>
-                    <View style={styles.saveButtonWrapper}>
-                        <Text style={styles.saveButtonText}>Speichern</Text>
-                    </View>
-                </TouchableHighlight>
-            </View>
+                </>
+            )}
         </ScrollView>
     );
 }
 
-export default ProfileScreen;
+const mapStateToProps = (state) => {
+    return { authReducers: state.authReducers };
+}
+
+export default connect(mapStateToProps)(ProfileScreen);
