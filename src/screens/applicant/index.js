@@ -118,10 +118,16 @@ const ApplicantScreen = (props) => {
     }
 
     const onSubmitApplication = () => {
+        const arr_we = workExperience.filter((value) => { return !value.hasOwnProperty('isNew') || !value.isNew });
+        const arr_education = education.filter((value) => { return !value.hasOwnProperty('isNew') || !value.isNew });
+
+        setWorkExperience(arr_we);
+        setEducation(arr_education);
+
         setIsSubmitting(true);
         Services.Job.applyJob(jobId, {
-            arr_work_experience: JSON.stringify(workExperience),
-            arr_education: JSON.stringify(education),
+            arr_work_experience: JSON.stringify(arr_we),
+            arr_education: JSON.stringify(arr_education),
             arr_skill: JSON.stringify(skills)
         }).then(res => {
             Alert.alert(res.message);
@@ -141,7 +147,7 @@ const ApplicantScreen = (props) => {
                 <Text style={styles.companyName}>{companyName}</Text>
             </View>
             {isLoading ? (
-                <ActivityIndicator />
+                <ActivityIndicator color="#999999" />
             ) : (
                 <View style={styles.card} >
                     {isApplied ? (

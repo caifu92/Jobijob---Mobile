@@ -32,11 +32,25 @@ const AppliedJobsScreen = (props) => {
         return unsubscribe;
     }, [props.authReducers.isLoggedIn]);
 
+    const onPagination = (pageNo) => {
+        if (pageNo != curPage) {
+            setIsLoading(true);
+            Services.Job.getApplied(pageNo)
+                .then(res => {
+                    setJobs(res.data);
+                    setCurPage(res.current_page);
+                    setTotalPage(res.last_page);
+                    setIsLoading(false);
+                })
+                .catch(err => console.log(err));
+        }
+    }
+
     return (
         <ScrollView style={styles.simple.wrapper}>
             <Text style={styles.simple.headline}>Meine Bewerbungen</Text>
             {isLoading ? (
-                <ActivityIndicator />
+                <ActivityIndicator color="#999999" />
             ) : (
                 <View>
                     {jobs.map((value, index) => {

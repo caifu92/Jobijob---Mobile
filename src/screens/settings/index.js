@@ -140,7 +140,7 @@ const SettingsScreen = (props) => {
                 </TouchableHighlight>
             </View>
             {isLoading ? (
-                <ActivityIndicator style={{paddingTop: 50}} />
+                <ActivityIndicator style={{paddingTop: 50}} color="#999999" />
             ) : (
                 <>
                     <View style={styles.basicInfoWrapper}>

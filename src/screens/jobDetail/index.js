@@ -26,9 +26,9 @@ const JobDetailScreen = (props) => {
             <View style={styles.simple.header}>
                 <Text style={styles.simple.headerText}>JobiJob</Text>
             </View>
-            <View style={styles.jobItem.wrapper}>
+            <ScrollView style={styles.jobItem.wrapper}>
                 {isLoading ? (
-                    <ActivityIndicator />
+                    <ActivityIndicator color="#999999" />
                 ) : (
                     <>
                         <View style={{flexDirection: 'row'}}>
@@ -57,7 +57,7 @@ const JobDetailScreen = (props) => {
                         </View>
                     </>
                 )}
-            </View>
+            </ScrollView>
         </>
     );
 }

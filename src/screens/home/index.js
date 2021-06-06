@@ -24,6 +24,11 @@ const radiusItems = [
 
 const HomeScreen = (props) => {
     const [isLoading, setIsLoading] = useState(true);
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchTitle, setSearchTitle] = useState('');
+    const [searchLocation, setSearchLocation] = useState('');
+    const [searchRadius, setSearchRadius] = useState(1);
+    const [urlQuery, setUrlQuery] = useState('');
     const [jobs, setJobs] = useState([]);
     const [curPage, setCurPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
@@ -43,10 +48,10 @@ const HomeScreen = (props) => {
         return unsubscribe;
     }, []);
 
-    onPagination = (pageNo) => {
+    const onPagination = (pageNo) => {
         if (pageNo != curPage) {
             setIsLoading(true);
-            Services.Job.getAll(pageNo)
+            Services.Job.getAll(pageNo, urlQuery)
                 .then(res => {
                     setJobs(res.data);
                     setCurPage(res.current_page);
@@ -55,6 +60,23 @@ const HomeScreen = (props) => {
                 })
                 .catch(err => console.log(err));
         }
+    }
+
+    const onPressSearch = () => {
+        const query = `title=${searchTitle}&location=${searchLocation}&radius=${searchRadius}`;
+
+        setIsLoading(true);
+        setIsSearching(true);
+        setUrlQuery(query);
+        Services.Job.getAll(1, query)
+            .then(res => {
+                setJobs(res.data);
+                setCurPage(res.current_page);
+                setTotalPage(res.last_page);
+                setIsLoading(false);
+                setIsSearching(false);
+            })
+            .catch(err => console.log(err));
     }
 
     return (
@@ -69,28 +91,34 @@ const HomeScreen = (props) => {
                         <Text style={styles.simple.searchDescription}>Finden Sie mit JobiJob Ihren neuen Traumberuf.</Text>
                         <CustomInput 
                             style={styles.simple.searchTitle} 
+                            onChangeText={setSearchTitle}
                             placeholder="Suchen" />
                         <View style={{flexDirection: 'row'}}>
                             <CustomInput 
-                                style={styles.simple.searchLocation} 
+                                style={styles.simple.searchLocation}
+                                onChangeText={setSearchLocation} 
                                 placeholder="Ort" />
                             <CustomSelect 
                                 style={styles.simple.searchRadius}
-                                onValueChange={(value) => console.log(value)} 
+                                onValueChange={setSearchRadius} 
                                 width={(screenWidth - 100) * 0.3}
                                 items={radiusItems} 
                                 placeholder={{ label: 'Umkreis', value: null }} />
                         </View>
                         <View style={styles.simple.searchButtonWrapper}>
-                            <TouchableHighlight underlayColor="transparent" onPress={() => console.log('search')}>
-                                <Text style={styles.simple.searchButtonText}>Jetzt Suchen</Text>
-                            </TouchableHighlight>
+                            {isSearching ? (
+                                <ActivityIndicator color="white" />
+                            ) : (
+                                <TouchableHighlight underlayColor="transparent" onPress={onPressSearch}>
+                                    <Text style={styles.simple.searchButtonText}>Jetzt Suchen</Text>
+                                </TouchableHighlight>
+                            )}
                         </View>
                     </View>
                 </View>
                 {isLoading ? (
                     <>
-                        <ActivityIndicator style={styles.simple.indicator} />
+                        <ActivityIndicator style={styles.simple.indicator} color="#999999" />
                     </>
                 ) : (
                     <>

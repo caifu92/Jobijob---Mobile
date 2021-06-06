@@ -69,10 +69,10 @@ const simple = EStyleSheet.create({
         borderRadius: 10,
         backgroundColor: '$primary',
         width: '60%',
+        paddingVertical: 15,
         marginHorizontal: '20%'
     },
     searchButtonText: {
-        paddingVertical: 15,
         textAlign: 'center',
         color: '$white',
         fontWeight: '800',

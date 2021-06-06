@@ -3,7 +3,8 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 export default styles = EStyleSheet.create({
     screenWrapper: {
         flex: 1,
-        backgroundColor: '$whiteLight'
+        backgroundColor: '$whiteLight',
+        paddingVertical: 50
     },
     header: {
         height: 65,
