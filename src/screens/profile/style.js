@@ -20,13 +20,13 @@ export default styles = EStyleSheet.create({
 
     },
     basicInfoWrapper: {
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: 70
     },
     profileImage: {
         width: 200,
         height: 200,
-        borderRadius: 100,
-        marginTop: 70
+        borderRadius: 100
     },
     username: {
         marginTop: 20,

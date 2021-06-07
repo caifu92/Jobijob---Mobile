@@ -56,14 +56,14 @@ class NetworkHelper {
                         reject({});
                     } else if (status != 200) {
                         console.log(url, body, status);
-                        Alert.alert(body.error);
+                        Alert.alert(body.error || 'Interner Serverfehler');
                         reject({});
                     } else {
                         resolve(body);
                     }
                 })
                 .catch(err => {
-                    Alert('Interner Serverfehler');
+                    Alert.alert('Interner Serverfehler');
                     reject(err);
                 });
         });

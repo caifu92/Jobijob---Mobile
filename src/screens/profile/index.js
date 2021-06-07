@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { ScrollView, View, Text, Image, TouchableHighlight, ActivityIndicator, Alert } from 'react-native'
-import { WorkExperience, Education, CustomInput } from '@components'
+import { WorkExperience, Education, CustomInput, ProgressiveImage } from '@components'
 import * as Services from '@services'
 import Images from '@assets/image'
 import styles from './style'
@@ -150,7 +150,7 @@ const ProfileScreen = (props) => {
             ) : (
                 <>
                     <View style={styles.basicInfoWrapper}>
-                        <Image source={profileImage ? {uri: profileImage} : Images.DefaultProfileImage} style={styles.profileImage} />
+                        <ProgressiveImage source={profileImage ? {uri: profileImage} : Images.DefaultProfileImage} style={styles.profileImage} />
                         <Text style={styles.username}>{username}</Text>
                     </View>
                     <View style={styles.card} >

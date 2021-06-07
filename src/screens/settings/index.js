@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { ScrollView, View, Text, Image, TouchableHighlight, Alert, ActivityIndicator } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
-import { CustomInput } from '@components'
+import { CustomInput, ProgressiveImage } from '@components'
 import * as Services from '@services'
 import * as Actions from '@redux/actions'
 import Images from '@assets/image'
@@ -48,7 +48,6 @@ const SettingsScreen = (props) => {
         if (status !== 'granted') {
             alert('Entschuldigung, wir benötigen eine Kameraerlaubnis, damit dies funktioniert.');
         } else {
-            console.log('take a photo');
             let image = await ImagePicker.launchCameraAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
@@ -58,7 +57,6 @@ const SettingsScreen = (props) => {
             });
             if (!image.cancelled) {
                 setLocalImage(image.base64);
-                console.log(image);
             }
         }
     }
@@ -116,7 +114,7 @@ const SettingsScreen = (props) => {
             address: address,
             age: age,
             password: password,
-            localImage: localImage
+            image: localImage
         }).then(res => {
             Alert.alert(res.message);
             setIsSaving(false);
@@ -145,7 +143,7 @@ const SettingsScreen = (props) => {
                 <>
                     <View style={styles.basicInfoWrapper}>
                         <View>
-                            <Image 
+                            <ProgressiveImage 
                                 source={localImage ? {url: `data:image/gif;base64,${localImage}`} : (profileImage ? { uri: profileImage } : Images.DefaultProfileImage )} 
                                 style={styles.profileImage} />
                             <View style={styles.profileImageEditButtonWrapper}>

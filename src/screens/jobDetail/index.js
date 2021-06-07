@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ActivityIndicator, ScrollView, View, Text, Image, Dimensions, TouchableHighlight } from 'react-native'
-import { CustomInput, CustomSelect } from '@components'
+import { CustomInput, CustomSelect, ProgressiveImage } from '@components'
 import * as Services from '@services'
 import Images from '@assets/image'
 import styles from './style'
@@ -32,8 +32,8 @@ const JobDetailScreen = (props) => {
                 ) : (
                     <>
                         <View style={{flexDirection: 'row'}}>
-                            <Image 
-                                source={Images.DefaultProfileImage} 
+                            <ProgressiveImage 
+                                source={jobInfo.company.logo ? {url: jobInfo.company.logo} : Images.DefaultProfileImage} 
                                 style={styles.jobItem.companyLogo} />
                             <View>
                                 <Text style={styles.jobItem.jobTitle}>{jobInfo.title}</Text>

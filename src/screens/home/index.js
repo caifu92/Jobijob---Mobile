@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ActivityIndicator, ScrollView, View, Text, Image, Dimensions, TouchableHighlight, ImageStore, Alert } from 'react-native'
 
-import { CustomInput, CustomSelect } from '@components'
+import { CustomInput, CustomSelect, ProgressiveImage } from '@components'
 import * as Services from '@services'
 import Images from '@assets/image'
 import styles from './style'
@@ -128,8 +128,8 @@ const HomeScreen = (props) => {
                                 return (
                                     <View style={styles.jobItem.wrapper} key={value.id}>
                                         <View style={{flexDirection: 'row'}}>
-                                            <Image 
-                                                source={{uri: value.company.logo}} 
+                                            <ProgressiveImage 
+                                                source={value.company.logo ? {uri: value.company.logo} : Images.DefaultProfileImage} 
                                                 style={styles.jobItem.companyLogo} />
                                             <View>
                                                 <Text style={styles.jobItem.jobTitle}>{value.title}</Text>

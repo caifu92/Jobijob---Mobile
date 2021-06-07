@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Text, ScrollView, View, Image, TouchableHighlight, ActivityIndicator } from 'react-native'
+import { ProgressiveImage } from '@components'
 import { getDateAsString } from '@common'
 import * as Services from '@services'
 import Images from '@assets/image'
@@ -68,7 +69,7 @@ const AppliedJobsScreen = (props) => {
                         }
                         return (
                             <View style={styles.simple.jobItemWrapper} key={value.id}>
-                                <Image 
+                                <ProgressiveImage 
                                     source={value.company.logo ? { uri: value.company.logo } : Images.DefaultProfileImage} 
                                     style={styles.simple.companyLogo} />
                                 <View style={{flex: 1}}>
